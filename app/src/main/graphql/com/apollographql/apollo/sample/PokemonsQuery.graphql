@@ -1,0 +1,62 @@
+query PokemonsQuery($number: Int!){
+    pokemons(first: $number){
+        id
+        number
+        name
+        image
+        types
+    }
+}
+
+
+query PokemonDtlQuery($pkmnId: String!){
+  pokemon(id: $pkmnId){
+    ...PokemonDtl
+  }
+}
+
+fragment PokemonDtl on Pokemon{
+  id
+  name
+  number
+  image
+  weight{
+    minimum
+    maximum
+  }
+  height{
+    minimum
+    maximum
+  }
+  classification
+  types
+  resistant
+  attacks{
+    fast{
+      name
+      type
+      damage
+    }
+    special{
+      name
+      type
+      damage
+    }
+  }
+  weaknesses
+  fleeRate
+  maxCP
+  evolutions{
+    id
+    name
+    number
+    types
+    image
+  }
+  evolutionRequirements{
+    amount
+    name
+  }
+
+  maxHP
+}

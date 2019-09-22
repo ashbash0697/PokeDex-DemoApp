@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:context=".ui.PokemonDetail.bottomSheet.AttackBottomSheet"
+                android:orientation="vertical"
+                android:background="@drawable/bottom_sheet_background">
+    
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="Fast Attack"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fastAttackRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"></androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="Special Attack"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/splAttackRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"></androidx.recyclerview.widget.RecyclerView>
+
+
+
+</LinearLayout>
