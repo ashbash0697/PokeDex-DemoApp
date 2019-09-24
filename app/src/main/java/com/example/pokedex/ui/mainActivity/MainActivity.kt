@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_main.*
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initRecView()
-        mainVm.getPokemons().observe(this, Observer<CustomResponse<List<PokemonsQuery.Pokemon>>>{
+        mainVm.pkmnListLiveData.observe(this, Observer<CustomResponse<List<PokemonsQuery.Pokemon>>>{
             when(it.status){
                 StateEnum.SUCCESS -> {
                     showRecycler()

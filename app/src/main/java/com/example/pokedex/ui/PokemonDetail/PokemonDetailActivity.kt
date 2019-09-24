@@ -18,13 +18,13 @@ import com.example.pokedex.utils.StateEnum
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 
 class PokemonDetailActivity : AppCompatActivity() {
-    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(this, PokeDexViewModelFactory(application as PokeDexApplication)).get(PokemonDtlViewModel::class.java) }
+    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(this).get(PokemonDtlViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_detail)
         val pokeId = intent.getStringExtra("ID")
-        pokemonDtlViewModel.getPokemonDetailById(pokeId)
+            pokemonDtlViewModel.getPokemonDetailById(pokeId)
             pokemonDtlViewModel.pokemonDtlLiveData.observe(this, Observer {
             when(it.status){
                 StateEnum.SUCCESS->{

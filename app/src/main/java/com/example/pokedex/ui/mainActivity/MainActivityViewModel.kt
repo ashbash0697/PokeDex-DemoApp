@@ -10,17 +10,24 @@ import javax.inject.Inject
 
 class MainActivityViewModel() : ViewModel(), PokeDexComponent.Injectable{
 
+   lateinit var pkmnListLiveData:  LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>>
+
+
+        @Inject
+        lateinit var repo: PokeDexRepo
+
+
     override fun inject(pokeDexComponent: PokeDexComponent) {
         pokeDexComponent.inject(this)
+        getPokemons()
     }
 
-    @Inject
-    lateinit var repo: PokeDexRepo
 
 
 
-    fun getPokemons(): LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> {
-       return repo.fetchAllPokemons()
+
+    fun getPokemons()  {
+       pkmnListLiveData = repo.fetchAllPokemons()
     }
 
 

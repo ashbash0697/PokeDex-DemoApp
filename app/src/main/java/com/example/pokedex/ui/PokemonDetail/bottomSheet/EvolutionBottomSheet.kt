@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,12 +34,14 @@ class EvolutionBottomSheet : BottomSheetDialogFragment(),
 
 
     override fun onItemSelected(position: Int, item: PokemonDtl.Evolution) {
+        pokemonDtlViewModel?.getPokemonDetailById(item.id())
         dismiss()
-        pokemonDtlViewModel.getPokemonDetailById(item.id())
+
+
     }
 
-    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(activity!!, PokeDexViewModelFactory(activity!!.application as PokeDexApplication)).get(
-        PokemonDtlViewModel::class.java) }
+    private val pokemonDtlViewModel by lazy { activity?.let { ViewModelProviders.of(it).get(
+        PokemonDtlViewModel::class.java) } }
 
 
     override fun onCreateView(
@@ -51,12 +54,13 @@ class EvolutionBottomSheet : BottomSheetDialogFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+
         evolutionRecView.apply {
             layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
            val pkmnsRecAdapter =
                EvolutionListAdapter(this@EvolutionBottomSheet)
             adapter = pkmnsRecAdapter
-            val evolutionList = pokemonDtlViewModel.pokemonDtl?.evolutions()
+            val evolutionList = pokemonDtlViewModel?.pokemonDtl?.evolutions()
             evolutionList?.let {
                 pkmnsRecAdapter.submitList(it)
             }
