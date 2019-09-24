@@ -14,32 +14,35 @@ import com.example.pokedex.R
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.AttackBottomSheet
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.EvolutionBottomSheet
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.PhysicalBottomSheet
+import com.example.pokedex.utils.CustomResponse
 import com.example.pokedex.utils.StateEnum
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 
 class PokemonDetailActivity : AppCompatActivity() {
-    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(this).get(PokemonDtlViewModel::class.java) }
+    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(this, PokeDexViewModelFactory(application as PokeDexApplication)).get(PokemonDtlViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_detail)
         val pokeId = intent.getStringExtra("ID")
             pokemonDtlViewModel.getPokemonDetailById(pokeId)
-            pokemonDtlViewModel.pokemonDtlLiveData.observe(this, Observer {
-            when(it.status){
-                StateEnum.SUCCESS->{
-                    showData()
-                    setupUi(it.data)
-                }
-                StateEnum.FAILED->{
-                    showError(it.message)
+            pokemonDtlViewModel.pokemonDtlLiveData.observe(this, observer)
+    }
 
-                }
-                StateEnum.LOADING->{
-                    showLoading()
-                }
+    var observer = Observer<CustomResponse<PokemonDtl>> {
+        when(it.status){
+            StateEnum.SUCCESS->{
+                showData()
+                setupUi(it.data)
             }
-        })
+            StateEnum.FAILED->{
+                showError(it.message)
+
+            }
+            StateEnum.LOADING->{
+                showLoading()
+            }
+        }
     }
 
     private fun showLoading() {
@@ -75,6 +78,8 @@ class PokemonDetailActivity : AppCompatActivity() {
             pkmnTypeValue.text = it.resistant()?.joinToString ()
             pkmnWeaknessValue.text = it.weaknesses()?.joinToString()
             pkmnclassValue.text = it.classification()
+
+            pkmnTitleName.setOnClickListener { pokemonDtlViewModel.getPokemonDetailById("UG9rZW1vbjowMDI=") }
 
             Glide.with(this)
                 .load(it.image())

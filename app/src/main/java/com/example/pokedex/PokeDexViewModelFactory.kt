@@ -3,6 +3,7 @@ package com.example.pokedex
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.pokedex.di.components.PokeDexComponent
+import com.example.pokedex.ui.PokemonDetail.PokemonDtlViewModel
 
 class PokeDexViewModelFactory (val application: PokeDexApplication): ViewModelProvider.NewInstanceFactory(){
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

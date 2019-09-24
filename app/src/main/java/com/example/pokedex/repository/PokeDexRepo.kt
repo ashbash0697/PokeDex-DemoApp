@@ -10,7 +10,7 @@ interface PokeDexRepo {
 
     fun fetchAllPokemons(): LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>>
 
-    fun fetchPokemonById(pkmnId: String): LiveData<CustomResponse<PokemonDtl>>
+    fun fetchPokemonById(pkmnId: String): MutableLiveData<CustomResponse<PokemonDtl>>
 
 
 

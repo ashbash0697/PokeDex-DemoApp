@@ -15,9 +15,11 @@ import com.example.pokedex.utils.StateEnum
 
 class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
 
+    var pokemonDtlMutableLiveData : MutableLiveData<CustomResponse<PokemonDtl>> = MutableLiveData()
+    var pokemonsMutableLiveData: MutableLiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> = MutableLiveData()
+
     override fun fetchAllPokemons(): LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> {
 
-        var pokemonsMutableLiveData: MutableLiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> = MutableLiveData()
         pokemonsMutableLiveData.postValue(CustomResponse(StateEnum.LOADING, "", null))
 
         apolloClient.query(PokemonsQuery
@@ -41,9 +43,8 @@ class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
         return pokemonsMutableLiveData
     }
 
-    override fun fetchPokemonById(pkmnId: String): LiveData<CustomResponse<PokemonDtl>>{
+    override fun fetchPokemonById(pkmnId: String): MutableLiveData<CustomResponse<PokemonDtl>>{
 
-        var pokemonDtlMutableLiveData : MutableLiveData<CustomResponse<PokemonDtl>> = MutableLiveData()
         pokemonDtlMutableLiveData.postValue(CustomResponse(StateEnum.LOADING, "", null))
 
         apolloClient.query(PokemonDtlQuery
