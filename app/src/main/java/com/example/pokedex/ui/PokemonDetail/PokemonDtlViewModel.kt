@@ -9,14 +9,15 @@ import com.example.pokedex.repository.PokeDexRepo
 import com.example.pokedex.utils.CustomResponse
 import javax.inject.Inject
 
-class PokemonDtlViewModel() : ViewModel(),PokeDexComponent.Injectable{
+class PokemonDtlViewModel() : ViewModel(),PokeDexComponent.DtlInjectable{
 
     var pokemonDtl: PokemonDtl? = null
 
     lateinit var pokemonDtlLiveData : LiveData<CustomResponse<PokemonDtl>>
 
-     override fun inject(pokeDexComponent: PokeDexComponent) {
+     override fun inject(pokeDexComponent: PokeDexComponent, id: String?) {
         pokeDexComponent.inject(this)
+         id?.let { getPokemonDetailById(it) }
     }
 
     @Inject
@@ -24,7 +25,6 @@ class PokemonDtlViewModel() : ViewModel(),PokeDexComponent.Injectable{
 
      fun getPokemonDetailById(pokeId: String){
 
-       //  if (pokemonDtl == null) {
 
          if (!pokemonDtl?.id().equals(pokeId)){
 
@@ -32,7 +32,7 @@ class PokemonDtlViewModel() : ViewModel(),PokeDexComponent.Injectable{
 
          }
 
-       //  }
+
 
     }
 

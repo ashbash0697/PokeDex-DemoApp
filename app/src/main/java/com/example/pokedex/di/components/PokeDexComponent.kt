@@ -20,4 +20,8 @@ interface PokeDexComponent {
         fun inject(pokeDexComponent: PokeDexComponent)
     }
 
+    interface DtlInjectable{
+        fun inject(pokeDexComponent: PokeDexComponent, id: String?)
+    }
+
 }

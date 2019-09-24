@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_physical_bottom_sheet.*
  */
 class PhysicalBottomSheet : BottomSheetDialogFragment() {
 
-    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(activity!!, PokeDexViewModelFactory(activity!!.application as PokeDexApplication)).get(
+    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(activity!!).get(
         PokemonDtlViewModel::class.java) }
 
 

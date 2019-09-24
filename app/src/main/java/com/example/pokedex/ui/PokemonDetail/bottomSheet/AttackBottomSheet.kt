@@ -33,13 +33,14 @@ class AttackBottomSheet : BottomSheetDialogFragment(), AttackListAdapter.Interac
     SplAttListAdapter.Interaction {
     override fun onItemSelected(position: Int, item: PokemonDtl.Special) {
 
+
     }
 
     override fun onItemSelected(position: Int, item: PokemonDtl.Fast) {
 
     }
 
-    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(activity!!, PokeDexViewModelFactory(activity!!.application as PokeDexApplication)).get(
+    private val pokemonDtlViewModel by lazy { ViewModelProviders.of(activity!! ).get(
         PokemonDtlViewModel::class.java) }
 
 

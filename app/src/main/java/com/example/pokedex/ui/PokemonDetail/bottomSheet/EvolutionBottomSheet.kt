@@ -40,7 +40,7 @@ class EvolutionBottomSheet : BottomSheetDialogFragment(),
 
     }
 
-    private val pokemonDtlViewModel by lazy { activity?.let { ViewModelProviders.of(it, PokeDexViewModelFactory(activity!!.application as PokeDexApplication)).get(
+    private val pokemonDtlViewModel by lazy { activity?.let { ViewModelProviders.of(it).get(
         PokemonDtlViewModel::class.java) } }
 
 
