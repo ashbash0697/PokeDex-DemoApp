@@ -13,8 +13,7 @@ import com.example.pokedex.PokeDexApplication
 import com.example.pokedex.PokeDexViewModelFactory
 import com.example.pokedex.R
 import com.example.pokedex.ui.PokemonDetail.PokemonDetailActivity
-import com.example.pokedex.utils.CustomResponse
-import com.example.pokedex.utils.StateEnum
+import com.example.pokedex.utils.PokemonState
 import kotlinx.android.synthetic.main.activity_main.*
 
  class MainActivity : AppCompatActivity(), PokemonsListAdapter.Interaction {
@@ -29,19 +28,19 @@ import kotlinx.android.synthetic.main.activity_main.*
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initRecView()
-        mainVm.pkmnListLiveData.observe(this, Observer<CustomResponse<List<PokemonsQuery.Pokemon>>>{
-            when(it.status){
-                StateEnum.SUCCESS -> {
-                    showRecycler()
-                    it.data?.let { it1 -> pkmnsRecAdapter.submitList(it1) }
-                }
-                StateEnum.FAILED -> {
-                    showError(it.message)
-                }
-                StateEnum.LOADING ->{
+        mainVm.pkmnListLiveData.observe(this, Observer {
+            when(it){
+               is PokemonState.LoadingState->{
                     showLoading()
                 }
+               is PokemonState.ErrorState->{
+                    showError(it.data)
+                }
+                is PokemonState.DataState<*>->{
+                    showRecycler()
+                    it.data?.let { it1 -> pkmnsRecAdapter.submitList(it1 as List<PokemonsQuery.Pokemon>) }
 
+                }
             }
         })
     }

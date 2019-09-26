@@ -2,15 +2,14 @@ package com.example.pokedex.ui.mainActivity
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.apollographql.apollo.sample.PokemonsQuery
 import com.example.pokedex.di.components.PokeDexComponent
 import com.example.pokedex.repository.PokeDexRepo
-import com.example.pokedex.utils.CustomResponse
+import com.example.pokedex.utils.PokemonState
 import javax.inject.Inject
 
 class MainActivityViewModel() : ViewModel(), PokeDexComponent.Injectable{
 
-   lateinit var pkmnListLiveData:  LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>>
+   lateinit var pkmnListLiveData:  LiveData<PokemonState>
 
 
         @Inject

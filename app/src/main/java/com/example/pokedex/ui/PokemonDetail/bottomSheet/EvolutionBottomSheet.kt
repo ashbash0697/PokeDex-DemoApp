@@ -40,8 +40,10 @@ class EvolutionBottomSheet : BottomSheetDialogFragment(),
 
     }
 
-    private val pokemonDtlViewModel by lazy { activity?.let { ViewModelProviders.of(it).get(
-        PokemonDtlViewModel::class.java) } }
+    /*private val pokemonDtlViewModel by lazy {  ViewModelProviders.of(activity!!).get(
+        PokemonDtlViewModel::class.java)  }*/
+
+    lateinit var pokemonDtlViewModel: PokemonDtlViewModel
 
 
     override fun onCreateView(
@@ -49,6 +51,7 @@ class EvolutionBottomSheet : BottomSheetDialogFragment(),
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        pokemonDtlViewModel = activity?.let { ViewModelProviders.of(it).get(PokemonDtlViewModel::class.java) }!!
         return inflater.inflate(R.layout.fragment_evolution_bottom_sheet, container, false)
     }
 

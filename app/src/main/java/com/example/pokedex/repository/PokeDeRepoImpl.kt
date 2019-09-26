@@ -10,17 +10,20 @@ import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.sample.PokemonDtlQuery
 import com.apollographql.apollo.sample.PokemonsQuery
 import com.apollographql.apollo.sample.fragment.PokemonDtl
-import com.example.pokedex.utils.CustomResponse
-import com.example.pokedex.utils.StateEnum
+import com.example.pokedex.utils.PokemonState
 
 class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
 
-    var pokemonDtlMutableLiveData : MutableLiveData<CustomResponse<PokemonDtl>> = MutableLiveData()
-    var pokemonsMutableLiveData: MutableLiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> = MutableLiveData()
+    //PokemonState.DataState<PokemonDtl>()
+    var pokemonDtlMutableLiveData : MutableLiveData<PokemonState> = MutableLiveData()
 
-    override fun fetchAllPokemons(): LiveData<CustomResponse<List<PokemonsQuery.Pokemon>>> {
+    //PokemonState.DataState<List<PokemonsQuery.Pokemon>>>()
+    var pokemonsMutableLiveData: MutableLiveData<PokemonState> = MutableLiveData()
 
-        pokemonsMutableLiveData.postValue(CustomResponse(StateEnum.LOADING, "", null))
+
+    override fun fetchAllPokemons(): LiveData<PokemonState> {
+
+        pokemonsMutableLiveData.postValue(PokemonState.LoadingState)
 
         apolloClient.query(PokemonsQuery
             .builder()
@@ -28,12 +31,12 @@ class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
             .build())
             .enqueue(object : ApolloCall.Callback<PokemonsQuery.Data>() {
                 override fun onFailure(e: ApolloException) {
-                    pokemonsMutableLiveData.postValue(CustomResponse(StateEnum.FAILED, e.message, null))
+                    pokemonsMutableLiveData.postValue(PokemonState.ErrorState(e.message))
                 }
 
                 override fun onResponse(response: Response<PokemonsQuery.Data>) {
                     response.data()?.pokemons()?.let {
-                        pokemonsMutableLiveData.postValue(CustomResponse(StateEnum.SUCCESS, "Success", it))
+                        pokemonsMutableLiveData.postValue(PokemonState.DataState<List<PokemonsQuery.Pokemon>>(it))
                     }
 
                 }
@@ -43,9 +46,9 @@ class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
         return pokemonsMutableLiveData
     }
 
-    override fun fetchPokemonById(pkmnId: String): MutableLiveData<CustomResponse<PokemonDtl>>{
+    override fun fetchPokemonById(pkmnId: String): LiveData<PokemonState>{
 
-        pokemonDtlMutableLiveData.postValue(CustomResponse(StateEnum.LOADING, "", null))
+        pokemonDtlMutableLiveData.postValue(PokemonState.LoadingState)
 
         apolloClient.query(PokemonDtlQuery
             .builder()
@@ -53,13 +56,13 @@ class PokeDeRepoImpl (val apolloClient: ApolloClient): PokeDexRepo{
             .build())
             .enqueue(object : ApolloCall.Callback<PokemonDtlQuery.Data>(){
                 override fun onFailure(e: ApolloException) {
-                    pokemonDtlMutableLiveData.postValue(CustomResponse(StateEnum.FAILED, e.message, null))
+                    pokemonDtlMutableLiveData.postValue(PokemonState.ErrorState(e.message))
 
                 }
 
                 override fun onResponse(response: Response<PokemonDtlQuery.Data>) {
                     response.data()?.pokemon()?.let {
-                        pokemonDtlMutableLiveData.postValue(CustomResponse(StateEnum.SUCCESS, "Success", it.fragments().pokemonDtl()))
+                        pokemonDtlMutableLiveData.postValue(PokemonState.DataState<PokemonDtl>(it.fragments().pokemonDtl()))
                     }
 
                 }

@@ -9,13 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import com.apollographql.apollo.sample.fragment.PokemonDtl
 import com.bumptech.glide.Glide
 import com.example.pokedex.PokeDexApplication
-import com.example.pokedex.PokeDexViewModelFactory
 import com.example.pokedex.R
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.AttackBottomSheet
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.EvolutionBottomSheet
 import com.example.pokedex.ui.PokemonDetail.bottomSheet.PhysicalBottomSheet
-import com.example.pokedex.utils.CustomResponse
-import com.example.pokedex.utils.StateEnum
+import com.example.pokedex.utils.PokemonState
 import kotlinx.android.synthetic.main.activity_pokemon_detail.*
 
 class PokemonDetailActivity : AppCompatActivity() {
@@ -29,8 +27,8 @@ class PokemonDetailActivity : AppCompatActivity() {
             pokemonDtlViewModel.pokemonDtlLiveData.observe(this, observer)
     }
 
-    var observer = Observer<CustomResponse<PokemonDtl>> {
-        when(it.status){
+    var observer = Observer<PokemonState> {
+        /*when(it.status){
             StateEnum.SUCCESS->{
                 showData()
                 setupUi(it.data)
@@ -41,6 +39,19 @@ class PokemonDetailActivity : AppCompatActivity() {
             }
             StateEnum.LOADING->{
                 showLoading()
+            }
+        }*/
+
+        when(it){
+            is PokemonState.LoadingState ->{
+                showLoading()
+            }
+            is PokemonState.ErrorState ->{
+                showError(it.data)
+            }
+            is PokemonState.DataState<*> ->{
+                showData()
+                setupUi(it.data as PokemonDtl?)
             }
         }
     }
